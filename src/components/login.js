@@ -1,26 +1,21 @@
 import React, { useRef, useState } from 'react'
 import useAuth from "../context/AuthContext"
 
-
-export default function Signup() {
+export default function Login() {
     const emailRef = useRef()
     const passwordRef = useRef()
-    const passwordConfirmRef = useRef()
-    const { signup } = useAuth()
+    const { login } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
 
     async function handleSubmit(e) {
         e.preventDefault()
-        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-            return setError("Passwords do not match")
-        }
         try {
             setError("")
             setLoading(true)
-            await signup(emailRef.current.value, passwordRef.current.value)
+            await login(emailRef.current.value, passwordRef.current.value)
         } catch {
-            setError("Failed to create an account")
+            setError("Failed to login")
         }
         setLoading(false)
     }
@@ -28,7 +23,7 @@ export default function Signup() {
         <div className="container mx-auto flex h-screen justify-center items-center">
             <div className="card bordered w-1/2 h-1/2">
                 <div className="card-body">
-                    <h2 className="card-title text-center">Sign Up</h2>
+                    <h2 className="card-title text-center">Login</h2>
                     {error && alert(error)}
                     <form onSubmit={handleSubmit}>
                         <div className="form-control" id="email">
@@ -44,26 +39,15 @@ export default function Signup() {
                             </label>
                             <input type="password" ref={passwordRef} placeholder="Password" className="input input-bordered" required />
                         </div>
-
-                        <div className="form-control" id="password-confirm">
-                            <label className="label">
-                                <span className="label-text">Confirm Password</span>
-                            </label>
-                            <input type="password" ref={passwordConfirmRef} placeholder="Confirm Password" className="input input-bordered" required />
-                        </div>
-
-                        <div  className="flex items-center justify-center my-5">
-                            <button disabled={loading} type="submit" className="btn">Sign Up</button>
+                        <div className="flex items-center justify-center my-5">
+                            <button disabled={loading} type="submit" className="btn">Login</button>
                         </div>
                     </form>
                     <h2 className="text-center">
-                        Already have an account? <a href="/login">Login</a>
+                        Need an account? <a href="/signup">Sign Up</a>
                     </h2>
                 </div>
             </div>
         </div>
-
-
-
     )
 }

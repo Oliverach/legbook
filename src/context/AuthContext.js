@@ -3,30 +3,26 @@ import { auth } from "../firebase"
 
 const AuthContext = React.createContext()
 
-export function useAuth() {
+export default function useAuth() {
     return useContext(AuthContext)
 }
 
 export function AuthProvider({ children }) {
-
+    const [loading, setLoading] = useState(true)
     const [currentUser, setCurrentUser] = useState()
+
 
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
       }
 
     useEffect(() => {
+        setLoading(false)
         const unsubscribe = auth.onAuthStateChanged(user => {
             setCurrentUser(user)
         })
         return unsubscribe
     }, [])
-
-
-    auth.onAuthStateChanged(user => {
-        setCurrentUser(user)
-    })
-
 
     const value = {
         currentUser,
@@ -36,7 +32,7 @@ export function AuthProvider({ children }) {
 
     return (
         <AuthContext.Provider value={value}>
-            {children}
+            {!loading && children}
         </AuthContext.Provider>
     )
 }

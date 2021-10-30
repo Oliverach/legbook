@@ -1,71 +1,69 @@
 import React, { useRef, useState } from 'react'
-import { Card, Form, Button, Alert} from "react-bootstrap"
-import { useAuth} from "../context/AuthContext"
+import useAuth from "../context/AuthContext"
 
 
 export default function Signup() {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-    const { signup, currentUser } = useAuth()
+    const { signup } = useAuth()
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
 
-    async function handleSubmit(e){
+    async function handleSubmit(e) {
         e.preventDefault()
-        if(passwordRef.current.value !== passwordConfirmRef.current.value){
+        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError("Passwords do not match")
         }
-        try{
+        try {
             setError("")
             setLoading(true)
             await signup(emailRef.current.value, passwordRef.current.value)
-        }catch{
+        } catch {
             setError("Failed to create an account")
         }
         setLoading(false)
     }
     return (
-        <>
-            <Card>
-                <Card.Body>
-                    <h2 className="text-center mb-4">
-                        Sign Up
+        <div className="container mx-auto flex h-screen justify-center items-center">
+            <div className="card bordered w-1/2 h-1/2">
+                <div className="card-body">
+                    <h2 className="card-title text-center">Sign Up</h2>
+                    {error && alert(error)}
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-control" id="email">
+                            <label className="label">
+                                <span className="label-text">E-Mail</span>
+                            </label>
+                            <input type="email" ref={emailRef} placeholder="E-Mail" className="input input-bordered" required />
+                        </div>
+
+                        <div className="form-control" id="password">
+                            <label className="label">
+                                <span className="label-text">Password</span>
+                            </label>
+                            <input type="password" ref={passwordRef} placeholder="Password" className="input input-bordered" required />
+                        </div>
+
+                        <div className="form-control" id="password-confirm">
+                            <label className="label">
+                                <span className="label-text">Confirm Password</span>
+                            </label>
+                            <input type="password" ref={passwordConfirmRef} placeholder="Confirm Password" className="input input-bordered" required />
+                        </div>
+
+                        <div  className="flex items-center justify-center my-5">
+                            <button disabled={loading} type="submit" className="btn">Sign Up</button>
+                        </div>
+                    </form>
+                    <h2 className="text-center">
+                        Already have an account? Log In
                     </h2>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    {JSON.stringify(currentUser)}
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group id="email">
-                            <Form.Label>
-                                E-Mail
-                            </Form.Label>
-                            <Form.Control type="email" ref={emailRef} required>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group id="password">
-                            <Form.Label>
-                                Password
-                            </Form.Label>
-                            <Form.Control type="password" ref={passwordRef} required>
-                            </Form.Control>
-                        </Form.Group>
-                        <Form.Group id="password-confirm">
-                            <Form.Label>
-                                Confirm Password
-                            </Form.Label>
-                            <Form.Control type="password" ref={passwordConfirmRef} required>
-                            </Form.Control>
-                        </Form.Group>
-
-                        <Button disabled={loading}type="submit" className="w-100">Sign Up</Button>
-
-                    </Form>
-                </Card.Body>
-            </Card>
-            <div className="w-100 text-center mt-2">
-                Already have an account? Log In
+                </div>
             </div>
-        </>
+        </div>
+
+
 
     )
 }

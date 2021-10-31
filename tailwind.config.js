@@ -10,4 +10,14 @@ module.exports = {
   plugins: [
     require('daisyui'),
   ],
+  daisyui: {
+    styled: true,
+    themes: true,
+    themes: [
+      'emerald', // first one will be the default theme
+      'dark',
+      'forest',
+      'synthwave'
+    ],
+  }
 }

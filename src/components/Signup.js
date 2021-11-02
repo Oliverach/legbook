@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import useAuth from "../context/AuthContext"
-
+import { useHistory } from 'react-router'
 
 export default function Signup() {
     const emailRef = useRef()
@@ -10,6 +10,7 @@ export default function Signup() {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const [buttonType, setButtonType] = useState("btn")
+    const history = useHistory();
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -21,6 +22,7 @@ export default function Signup() {
             setLoading(true)
             setButtonType("btn loading")
             await signup(emailRef.current.value, passwordRef.current.value)
+            history.push("/login")
         } catch {
             setError("Failed to create an account")
         }

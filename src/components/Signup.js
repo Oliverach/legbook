@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import useAuth from "../context/AuthContext"
 import { useHistory } from 'react-router'
 
+
 export default function Signup() {
     const emailRef = useRef()
     const passwordRef = useRef()
@@ -30,7 +31,9 @@ export default function Signup() {
         setLoading(false)
     }
     return (
-        <div className="container mx-auto flex h-screen justify-center items-center">
+        <>
+            
+  
             <div className="card bordered w-1/2">
                 <div className="card-body">
                     <h2 className="card-title text-center">Sign Up</h2>
@@ -75,8 +78,8 @@ export default function Signup() {
                     </h2>
                 </div>
             </div>
-        </div>
-
+      
+            </>
 
 
     )

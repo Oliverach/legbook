@@ -2,23 +2,32 @@ import React from "react"
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { AuthProvider } from "../context/AuthContext";
 import Signup from "./Signup"
-import Dashboard from "./Dashboard";
+import Home from "./Home";
 import Login from "./login";
 import ForgotPassword from "./ForgotPassword";
 import PrivateRoute from "./PrivateRoute";
+import Navbar from "./Navbar"
 
 function App() {
+
   return (
-    <Router>
+    <>
       <AuthProvider>
-        <Switch>
-          <PrivateRoute exact path="/" component={Dashboard} />
-          <Route path="/signup" component={Signup} />
-          <Route path="/login" component={Login} />
-          <Route path="/password-recovery" component={ForgotPassword} />
-        </Switch>
+        <Navbar />
+        <div className="container mx-auto flex justify-center items-center">
+          <Router>
+            <Switch>
+
+              <PrivateRoute exact path="/" component={Home} />
+              <Route path="/signup" component={Signup} />
+              <Route path="/login" component={Login} />
+              <Route path="/password-recovery" component={ForgotPassword} />
+
+            </Switch>
+          </Router>
+        </div>
       </AuthProvider>
-    </Router>
+    </>
   )
 }
 export default App;

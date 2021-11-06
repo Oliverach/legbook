@@ -1,5 +1,5 @@
 import React from 'react'
-import useAuth from '../context/AuthContext'
+import {useAuth} from '../context/AuthContext'
 import { useHistory } from 'react-router-dom'
 
 
@@ -10,7 +10,7 @@ export default function Navbar() {
     async function handleLogout(e) {
         e.preventDefault()
         try {
-            await logout
+            await logout()
             history.push("/login")
         } catch {
             console.log("failed to logout")
@@ -54,7 +54,7 @@ export default function Navbar() {
                     Legbook
                 </span>
             </div>
-            {currentUser? navbarElementWhenLoggedOut : navbarElementWhenLoggedIn}
+            {currentUser? navbarElementWhenLoggedIn : navbarElementWhenLoggedOut}
         </div>)
 
     return navbar

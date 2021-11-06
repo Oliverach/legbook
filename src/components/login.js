@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import useAuth from "../context/AuthContext"
+import {useAuth} from "../context/AuthContext"
 import { useHistory } from 'react-router-dom'
 
 
@@ -24,7 +24,7 @@ export default function Login() {
 
     return (
         <>
-            <div className="card bordered w-1/2 h-1/2">
+            <div className="card shadow-lg bordered w-1/2 h-1/2">
                 <div className="card-body">
                     <h2 className="card-title text-center">Login</h2>
                     <form onSubmit={handleSubmit}>

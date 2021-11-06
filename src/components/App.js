@@ -14,10 +14,9 @@ function App() {
     <>
       <AuthProvider>
         <Navbar />
-        <div className="container mx-auto flex justify-center items-center">
+        <div className="container mx-auto flex h-screen justify-center items-center">
           <Router>
             <Switch>
-
               <PrivateRoute exact path="/" component={Home} />
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />

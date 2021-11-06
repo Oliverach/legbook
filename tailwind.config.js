@@ -14,10 +14,9 @@ module.exports = {
     styled: true,
     themes: true,
     themes: [
-      'emerald', // first one will be the default theme
-      'dark',
-      'forest',
-      'synthwave'
+     // first one will be the default theme
+      'light',
+      'dark'
     ],
   }
 }

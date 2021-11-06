@@ -1,11 +1,16 @@
-import React from 'react'
-import {useAuth} from '../context/AuthContext'
+import React, { useEffect } from 'react'
+import { useAuth } from '../context/AuthContext'
 import { useHistory } from 'react-router-dom'
+import { themeChange } from 'theme-change'
 
 
 export default function Navbar() {
     const { currentUser, logout } = useAuth()
     const history = useHistory()
+  
+    useEffect(() => {
+        themeChange(false)
+    }, [])
 
     async function handleLogout(e) {
         e.preventDefault()
@@ -54,7 +59,9 @@ export default function Navbar() {
                     Legbook
                 </span>
             </div>
-            {currentUser? navbarElementWhenLoggedIn : navbarElementWhenLoggedOut}
+            {currentUser ? navbarElementWhenLoggedIn : navbarElementWhenLoggedOut}
+
+            <input type="checkbox" class="toggle" data-toggle-theme="dark,light" data-act-class="ACTIVECLASS"></input>
         </div>)
 
     return navbar

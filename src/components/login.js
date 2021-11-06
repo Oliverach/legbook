@@ -39,13 +39,13 @@ export default function Login() {
                             <label className="label">
                                 <span className="label-text">E-Mail</span>
                             </label>
-                            <input type="email" ref={emailRef} placeholder="E-Mail" className="input input-bordered" required />
+                            <input type="email" ref={emailRef} placeholder="E-Mail" class="input input-primary input-bordered"  required />
                         </div>
                         <div className="form-control" id="password">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="password" ref={passwordRef} placeholder="Password" className="input input-bordered" required />
+                            <input type="password" ref={passwordRef} placeholder="Password" class="input input-primary input-bordered"  required />
                         </div>
                         <div className="flex items-center justify-center my-5">
                             <button disabled={loading} type="submit" className="btn">Login</button>

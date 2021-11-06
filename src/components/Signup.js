@@ -49,21 +49,21 @@ export default function Signup() {
                             <label className="label">
                                 <span className="label-text">E-Mail</span>
                             </label>
-                            <input type="email" ref={emailRef} placeholder="E-Mail" className="input input-bordered" required />
+                            <input type="email" ref={emailRef} placeholder="E-Mail" class="input input-primary input-bordered"  required />
                         </div>
 
                         <div className="form-control" id="password">
                             <label className="label">
                                 <span className="label-text">Password</span>
                             </label>
-                            <input type="password" ref={passwordRef} placeholder="Password" className="input input-bordered" required />
+                            <input type="password" ref={passwordRef} placeholder="Password" class="input input-primary input-bordered"  required />
                         </div>
 
                         <div className="form-control" id="password-confirm">
                             <label className="label">
                                 <span className="label-text">Confirm Password</span>
                             </label>
-                            <input type="password" ref={passwordConfirmRef} placeholder="Confirm Password" className="input input-bordered" required />
+                            <input type="password" ref={passwordConfirmRef} placeholder="Confirm Password" class="input input-primary input-bordered"  required />
                         </div>
 
                         <div className="flex items-center justify-center my-5">

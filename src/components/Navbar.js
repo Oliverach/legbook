@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useHistory } from 'react-router-dom'
 import { themeChange } from 'theme-change'
-
+import NewPost from './NewPost'
 
 export default function Navbar() {
     const { currentUser, logout } = useAuth()
     const history = useHistory()
-  
+
     useEffect(() => {
         themeChange(false)
     }, [])
@@ -24,6 +24,7 @@ export default function Navbar() {
 
     const navbarElementWhenLoggedOut = (
         <>
+
             <div className="flex-none hidden px-2 mx-2 lg:flex">
                 <div className="flex items-stretch">
                     <a className="btn btn-ghost btn-sm rounded-btn" href="/login">
@@ -41,15 +42,18 @@ export default function Navbar() {
         </>)
 
     const navbarElementWhenLoggedIn = (
-        <div>
-            <div className="flex-none hidden px-2 mx-2 lg:flex">
-                <div className="flex items-stretch">
-                    <div className="btn btn-ghost btn-sm rounded-btn" onClick={handleLogout}>
-                        Logout
+        <>
+            <NewPost />
+            <div>
+                <div className="flex-none hidden px-2 mx-2 lg:flex">
+                    <div className="flex items-stretch">
+                        <div className="btn btn-ghost btn-sm rounded-btn" onClick={handleLogout}>
+                            Logout
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 
     const navbar = (

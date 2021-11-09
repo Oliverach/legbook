@@ -31,7 +31,7 @@ export default function Login() {
 
     return (
         <>
-            <div className="card shadow-lg bordered w-1/2 h-1/2">
+            <div className="card shadow-lg bordered w-1/2">
                 <div className="card-body">
                     <h2 className="card-title text-center">Login</h2>
                     <form onSubmit={handleSubmit}>

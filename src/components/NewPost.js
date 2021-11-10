@@ -1,19 +1,29 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { storage } from 'firebase';
+import app from 'firebase';
 
 export default function NewPost() {
 
     const fileInputRef = useRef()
 
-    const [image, setImage] = useState();
-    const [preview, setPreview] = useState();
+    const [image, setImage] = useState()
+    const [preview, setPreview] = useState()
+    const [description, setDescription] = useState()
+    const [fileUrl, setFileUrl] = useState()
 
-    function onClick(e) {
-        e.preventDefault()
-        const file = e.target.files[0]
-        const storageRef = storage
-        const fileRef = storageRef.child()
+    const uploadImage = async (e) => {
+        console.log("saasfdfasdfdasf")
+        const storageRef = app.storage().ref()
+        const fileRef = storageRef.child(image.name)
+        await fileRef.put(image)
+        setFileUrl(await fileRef.getDownloadURL())
+        const description = "test";
+    
+        await app.firestore().collection("posts").doc(description).set({
+            description: description,
+            fileUrl : fileUrl
+        })
     }
+
     useEffect(() => {
         if (image) {
             const reader = new FileReader();
@@ -27,7 +37,6 @@ export default function NewPost() {
     }, [image]);
     return (
         <>
-
             <label for="my-modal-2" class="btn btn-ghost modal-button">New Post</label>
             <input type="checkbox" id="my-modal-2" class="modal-toggle" />
             <div class="modal">
@@ -37,12 +46,14 @@ export default function NewPost() {
                             <img
                                 src={preview}
                                 style={{ objectFit: "cover" }}
+                                alt="preview"
                             />) : (<>
+
+                                <button class="btn btn-primary mx-auto " onClick={e => {
+                                    e.preventDefault()
+                                    fileInputRef.current.click()
+                                }}>Select Image</button>
                                 <form>
-                                    <button class="btn btn-primary mx-auto " onClick={e => {
-                                        e.preventDefault()
-                                        fileInputRef.current.click()
-                                    }}>Select Image</button>
                                     <input
                                         type="file"
                                         className="hidden"
@@ -50,10 +61,12 @@ export default function NewPost() {
                                         accept="image/*, video/*"
                                         onChange={(event) => {
                                             const file = event.target.files[0];
+                                            
                                             if (file && file.type.substr(0, 5) === "image") {
-                                                setImage(file);
+                                                setImage(file)
+                                            
                                             } else {
-                                                setImage(null);
+                                                setImage(null)
                                             }
                                         }}
                                     />
@@ -64,10 +77,15 @@ export default function NewPost() {
                         <label class="label">
                             <span class="label-text">Description</span>
                         </label>
-                        <textarea class="textarea h-24 textarea-bordered textarea-primary" placeholder="Description"></textarea>
+                        <textarea class="textarea h-24 textarea-bordered textarea-primary" name="description" placeholder="Description"></textarea>
                     </div>
                     <div class="modal-action">
-                        <button for="my-modal-2" class="btn btn-primary" onClick={onClick}>Submit</button>
+                        <button for="my-modal-2" class="btn btn-primary"  onClick={e => {
+                                    e.preventDefault()
+                                    if(image){
+                                        uploadImage(e)
+                                    }
+                                }}>Submit</button>
                         <label for="my-modal-2" class="btn">Close</label>
                     </div>
                 </div>

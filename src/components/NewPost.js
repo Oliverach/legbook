@@ -4,23 +4,30 @@ import { useAuth } from "../context/AuthContext"
 
 export default function NewPost() {
     const fileInputRef = useRef()
+    const descriptionRef = useRef()
+    const closeRef = useRef()
     const [image, setImage] = useState()
     const [preview, setPreview] = useState()
-    const [description, setDescription] = useState()
     const { currentUser } = useAuth()
+
     const uploadImage = async (e) => {
         const storageRef = app.storage().ref()
         const fileRef = storageRef.child(image.name)
         await fileRef.put(image)
-        await fileRef.getDownloadURL().then(function(response) {
+        await fileRef.getDownloadURL().then(function (response) {
             console.log(response)
             const id = app.firestore().collection('posts').doc().id
             app.firestore().collection('posts').doc(id).set({
-                description: description,
+                description: descriptionRef.current.value,
                 fileUrl: response,
-                user: "currentUser.uid"
+                user: currentUser.uid
             }).then(function () {
                 console.log("Document successfully written!");
+                alert("aight bro u do u")
+                  setImage(null)
+                  descriptionRef.current.value= ""
+                  closeRef.current.click()
+
             })
                 .catch(function (error) {
                     console.error("Error writing document: ", error);
@@ -41,7 +48,7 @@ export default function NewPost() {
     }, [image])
     return (
         <>
-            <label for="my-modal-2" className="btn btn-ghost modal-button">New Post</label>
+            <label htmlFor="my-modal-2" className="btn btn-ghost modal-button">New Post</label>
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">
                 <div className="modal-box">
@@ -79,21 +86,16 @@ export default function NewPost() {
                         <label className="label">
                             <span className="label-text">Description</span>
                         </label>
-                        <textarea className="textarea h-24 textarea-bordered textarea-primary"
-                            onChange={(event) => {
-                                const file = event.target.value;
-                                setDescription(file)
-                                console.log(description)
-                            }} name="description" placeholder="Description"></textarea>
+                        <textarea className="textarea h-24 textarea-bordered textarea-primary" ref={descriptionRef} name="description" placeholder="Description"></textarea>
                     </div>
                     <div className="modal-action">
-                        <button for="my-modal-2" className="btn btn-primary" onClick={e => {
+                        <button htmlFor="my-modal-2" className="btn btn-primary" onClick={e => {
                             e.preventDefault()
                             if (image) {
                                 uploadImage(e)
                             }
                         }}>Submit</button>
-                        <label for="my-modal-2" className="btn">Close</label>
+                        <label htmlFor="my-modal-2" ref={closeRef} className="btn">Close</label>
                     </div>
                 </div>
             </div>

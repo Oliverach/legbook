@@ -65,7 +65,7 @@ export default function Navbar() {
             </div>
             {currentUser ? navbarElementWhenLoggedIn : navbarElementWhenLoggedOut}
 
-            <input type="checkbox" class="toggle" data-toggle-theme="dark,light" data-act-class="ACTIVECLASS"></input>
+            <input type="checkbox" className="toggle" data-toggle-theme="dark,light" data-act-class="ACTIVECLASS"></input>
         </div>)
 
     return navbar

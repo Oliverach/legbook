@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react'
-import app from 'firebase';
+import app from 'firebase'
 import { useAuth } from "../context/AuthContext"
 
 export default function NewPost() {
@@ -10,7 +10,7 @@ export default function NewPost() {
     const [preview, setPreview] = useState()
     const { currentUser } = useAuth()
 
-    const uploadImage = async (e) => {
+    const uploadImage = async () => {
         const storageRef = app.storage().ref()
         const fileRef = storageRef.child(image.name)
         await fileRef.put(image)

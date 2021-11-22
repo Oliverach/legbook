@@ -1,16 +1,42 @@
-import React from 'react'
-import { useAuth } from '../context/AuthContext'
+import React, { useEffect, useState } from 'react'
+import app from 'firebase';
+
 
 export default function Dashboard() {
-    const { currentUser } = useAuth()
+
+    const db = app.firestore()
+    const [posts, setPosts] = useState([])
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            const postsCollection = await db.collection("posts").get()
+
+            setPosts(postsCollection.docs.map(doc => {
+
+                return doc.data()
+            }))
+        }
+
+        fetchPosts()
+    }, [])
+
 
     return (
         <>
-            <div className="card shadow-lg bordered w-1/2 h-1/2">
-                <div className="card-body">
-                    <h2 className="card-title text-center">{currentUser.email}</h2>
-                </div>
-            </div>
+           
+                {posts.map((post) => {
+                    return (
+                        <div class="card bordered">
+                            <figure>
+                                <img src={post.fileUrl} alt={post.description} />
+                            </figure>
+                            <div class="card-body">
+                                <p>{post.description}</p>
+                            </div>
+                        </div>
+                    )
+                })}
+            
         </>
     )
 }

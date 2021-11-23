@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react'
 import app from 'firebase';
 
 
-export default function Dashboard() {
+export default function Dashboard({test}) {
+
+  console.log(test)
 
     const db = app.firestore()
     const [posts, setPosts] = useState([])
@@ -26,9 +28,9 @@ export default function Dashboard() {
             <div class="flex flex-col">
                 {posts.map((post) => {
                     return (
-                        <div class="card w-1/2 mx-auto my-2 bordered">
+                        <div class="card w-1/4 mx-auto my-10 bordered  shadow-2xl">
                             <figure>
-                                <img src={post.fileUrl} alt={post.description} />
+                                <img src={post.fileUrl} style={{ objectFit: "cover" }} alt={post.description} />
                             </figure>
                             <div class="card-body">
                                 <p>{post.description}</p>

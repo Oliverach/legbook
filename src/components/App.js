@@ -9,16 +9,14 @@ import PrivateRoute from "./PrivateRoute";
 import Navbar from "./Navbar"
 
 function App() {
-
   return (
     <>
-
       <AuthProvider>
         <Navbar />
         <div className="container mx-auto flex justify-center items-center">
           <Router>
             <Switch>
-              <PrivateRoute exact path="/" component={Home} />
+              <PrivateRoute exact path="/" component={<Home test={"nice"}/>} />
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/password-recovery" component={ForgotPassword} />

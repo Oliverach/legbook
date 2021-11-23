@@ -25,7 +25,7 @@ export default function NewPost() {
                 user: currentUser.uid
             }).then(function () {
                 console.log("Document successfully written!");
-                window.location.reload()
+                closeRef.current.click()
             })
                 .catch(function (error) {
                     console.error("Error writing document: ", error);
@@ -53,33 +53,34 @@ export default function NewPost() {
                 <div className="modal-box">
                     <div className="flex justify-center items-center">
                         {preview ? (
-                            <img
-                                src={preview}
-                                style={{ objectFit: "cover" }}
-                                alt="preview"
-                            />) : (<>
+                            <div className="h-3/4">
+                                <img
+                                    src={preview}
+                                    style={{ objectFit: "cover" }}
+                                    alt="preview"
+                                /></div>) : (<>
 
-                                <button className="btn btn-primary mx-auto " onClick={e => {
-                                    e.preventDefault()
-                                    fileInputRef.current.click()
-                                }}>Select Image</button>
-                                <form>
-                                    <input
-                                        type="file"
-                                        className="hidden"
-                                        ref={fileInputRef}
-                                        accept="image/*, video/*"
-                                        onChange={(event) => {
-                                            const file = event.target.files[0];
-                                            if (file && file.type.substr(0, 5) === "image") {
-                                                setImage(file)
-                                            } else {
-                                                setImage(null)
-                                            }
-                                        }}
-                                    />
-                                </form>
-                            </>)}
+                                    <button className="btn btn-primary mx-auto " onClick={e => {
+                                        e.preventDefault()
+                                        fileInputRef.current.click()
+                                    }}>Select Image</button>
+                                    <form>
+                                        <input
+                                            type="file"
+                                            className="hidden"
+                                            ref={fileInputRef}
+                                            accept="image/*, video/*"
+                                            onChange={(event) => {
+                                                const file = event.target.files[0];
+                                                if (file && file.type.substr(0, 5) === "image") {
+                                                    setImage(file)
+                                                } else {
+                                                    setImage(null)
+                                                }
+                                            }}
+                                        />
+                                    </form>
+                                </>)}
                     </div>
                     <div className="form-control">
                         <label className="label">
@@ -88,22 +89,22 @@ export default function NewPost() {
                         <textarea className="textarea h-24 textarea-bordered textarea-primary" ref={descriptionRef} name="description" placeholder="Description"></textarea>
                     </div>
                     <div className="modal-action">
-                        {loading?( <><button htmlFor="my-modal-2" className="btn btn-primary loading"  disabled="disabled" onClick={e => {
+                        {loading ? (<><button htmlFor="my-modal-2" className="btn btn-primary loading" disabled="disabled" onClick={e => {
                             e.preventDefault()
                             if (image) {
                                 uploadImage(e)
                             }
                         }}>Submit</button>
-                        <label htmlFor="my-modal-2" ref={closeRef} className="btn "  disabled="disabled">Close</label></>)
-                        :( <><button htmlFor="my-modal-2" className="btn btn-primary" onClick={e => {
-                            e.preventDefault()
-                            if (image) {
-                                uploadImage(e)
-                            }
-                        }}>Submit</button>
-                        <label htmlFor="my-modal-2" ref={closeRef} className="btn">Close</label></>)}
-                       
-                        
+                            <label htmlFor="my-modal-2" ref={closeRef} className="btn " disabled="disabled">Close</label></>)
+                            : (<><button htmlFor="my-modal-2" className="btn btn-primary" onClick={e => {
+                                e.preventDefault()
+                                if (image) {
+                                    uploadImage(e)
+                                }
+                            }}>Submit</button>
+                                <label htmlFor="my-modal-2" ref={closeRef} onClick={e => {
+                                     setImage(null) 
+                                     descriptionRef.current.value=null}} className="btn">Close</label></>)}
                     </div>
                 </div>
             </div>

@@ -47,7 +47,7 @@ export default function Navbar() {
             <div>
                 <div className="flex-none hidden px-2 mx-2 lg:flex">
                     <div className="flex items-stretch">
-                        <div className="btn btn-ghost btn-sm rounded-btn" onClick={handleLogout}>
+                        <div className="btn btn-ghost rounded-btn" onClick={handleLogout}>
                             Logout
                         </div>
                     </div>

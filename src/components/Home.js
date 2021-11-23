@@ -23,10 +23,10 @@ export default function Dashboard() {
 
     return (
         <>
-           
+            <div class="flex flex-col">
                 {posts.map((post) => {
                     return (
-                        <div class="card bordered">
+                        <div class="card w-1/2 mx-auto my-2 bordered">
                             <figure>
                                 <img src={post.fileUrl} alt={post.description} />
                             </figure>
@@ -36,7 +36,7 @@ export default function Dashboard() {
                         </div>
                     )
                 })}
-            
+            </div>
         </>
     )
 }

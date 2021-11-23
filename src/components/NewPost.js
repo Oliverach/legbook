@@ -8,9 +8,11 @@ export default function NewPost() {
     const closeRef = useRef()
     const [image, setImage] = useState()
     const [preview, setPreview] = useState()
+    const [loading, setLoading] = useState(false)
     const { currentUser } = useAuth()
 
     const uploadImage = async () => {
+        setLoading(true)
         const storageRef = app.storage().ref()
         const fileRef = storageRef.child(image.name)
         await fileRef.put(image)
@@ -23,16 +25,13 @@ export default function NewPost() {
                 user: currentUser.uid
             }).then(function () {
                 console.log("Document successfully written!");
-                alert("aight bro u do u")
-                  setImage(null)
-                  descriptionRef.current.value= ""
-                  closeRef.current.click()
-
+                window.location.reload()
             })
                 .catch(function (error) {
                     console.error("Error writing document: ", error);
                 });
         })
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -89,13 +88,22 @@ export default function NewPost() {
                         <textarea className="textarea h-24 textarea-bordered textarea-primary" ref={descriptionRef} name="description" placeholder="Description"></textarea>
                     </div>
                     <div className="modal-action">
-                        <button htmlFor="my-modal-2" className="btn btn-primary" onClick={e => {
+                        {loading?( <><button htmlFor="my-modal-2" className="btn btn-primary loading"  disabled="disabled" onClick={e => {
                             e.preventDefault()
                             if (image) {
                                 uploadImage(e)
                             }
                         }}>Submit</button>
-                        <label htmlFor="my-modal-2" ref={closeRef} className="btn">Close</label>
+                        <label htmlFor="my-modal-2" ref={closeRef} className="btn "  disabled="disabled">Close</label></>)
+                        :( <><button htmlFor="my-modal-2" className="btn btn-primary" onClick={e => {
+                            e.preventDefault()
+                            if (image) {
+                                uploadImage(e)
+                            }
+                        }}>Submit</button>
+                        <label htmlFor="my-modal-2" ref={closeRef} className="btn">Close</label></>)}
+                       
+                        
                     </div>
                 </div>
             </div>

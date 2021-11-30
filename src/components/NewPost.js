@@ -26,8 +26,7 @@ export default function NewPost() {
             }).then(function () {
                 console.log("Document successfully written!");
                 closeRef.current.click()
-            })
-                .catch(function (error) {
+            }).catch(function (error) {
                     console.error("Error writing document: ", error);
                 });
         })

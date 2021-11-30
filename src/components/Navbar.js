@@ -21,7 +21,7 @@ export default function Navbar() {
             console.log("failed to logout")
         }
     }
-
+    
     const navbarElementWhenLoggedOut = (
         <>
 
@@ -45,6 +45,13 @@ export default function Navbar() {
         <>
             <NewPost />
             <div>
+            <div className="flex-none hidden px-2 mx-2 lg:flex">
+                    <div className="flex items-stretch">
+                    <a className="btn btn-ghost btn-sm rounded-btn" href="/profile">
+                        Profile
+                    </a>
+                    </div>
+                </div>
                 <div className="flex-none hidden px-2 mx-2 lg:flex">
                     <div className="flex items-stretch">
                         <div className="btn btn-ghost rounded-btn" onClick={handleLogout}>

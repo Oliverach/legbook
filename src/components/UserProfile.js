@@ -1,25 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import app from 'firebase';
+import React, {useEffect, useState} from 'react'
+import app from 'firebase'
+import { useAuth } from "../context/AuthContext"
 
-
-export default function Dashboard({test}) {
-
-  console.log(test)
-
-    const db = app.firestore()
+export default function UserProfile() {
+    const { currentUser } = useAuth()
     const [posts, setPosts] = useState([])
-
-    useEffect(() => {
-        const fetchPosts = async () => {
-            const postsCollection = await db.collection("posts").get()
-            setPosts(postsCollection.docs.map(doc => {
+    const db = app.firestore()
+    useEffect(()=>{
+        const fetchUsers = async () =>{
+            const postRef = db.collection("posts");
+            const collecion = await postRef.where('user', '==', currentUser.uid).get()
+            setPosts(collecion.docs.map(doc => {
                 return doc.data()
             }))
         }
-        fetchPosts()
-    }, [])
-
-
+        fetchUsers()
+    },[])
     return (
         <>
             <div class="flex flex-col">

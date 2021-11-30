@@ -21,10 +21,8 @@ function App() {
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/password-recovery" component={ForgotPassword} />
-              <Route path="/profile" component={ <UserProfile test={"yike he dont lift"} />} /> 
-              <Route path='/profile'>
-                <UserProfile test={"yikes he dont lift"} />
-              </Route>
+              <Route path="/profile" component={(props) => <UserProfile {...props} test={"hzhzhzhzh"} />} />  
+              
             </Switch>
           </Router>
         </div>

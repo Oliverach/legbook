@@ -2,12 +2,14 @@ import React, {useEffect, useState} from 'react'
 import app from 'firebase'
 import { useAuth } from "../context/AuthContext"
 
-export default function UserProfile() {
-    const { currentUser } = useAuth()
+export default function UserProfile({test}) {
+ 
     const [posts, setPosts] = useState([])
-    const db = app.firestore()
+  const { currentUser } = useAuth()
     useEffect(()=>{
+        
         const fetchUsers = async () =>{
+            const db = app.firestore()
             const postRef = db.collection("posts");
             const collecion = await postRef.where('user', '==', currentUser.uid).get()
             setPosts(collecion.docs.map(doc => {
@@ -15,17 +17,20 @@ export default function UserProfile() {
             }))
         }
         fetchUsers()
+
+        console.log(test)
     },[])
+
     return (
         <>
-            <div class="flex flex-col">
+            <div className="flex flex-col">
                 {posts.map((post) => {
                     return (
-                        <div class="card w-1/4 mx-auto my-10 bordered  shadow-2xl">
+                        <div className="card w-1/4 mx-auto my-10 bordered  shadow-2xl" key={post.description}>
                             <figure>
                                 <img src={post.fileUrl} style={{ objectFit: "cover" }} alt={post.description} />
                             </figure>
-                            <div class="card-body">
+                            <div className="card-body">
                                 <p>{post.description}</p>
                             </div>
                         </div>

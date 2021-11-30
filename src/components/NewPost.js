@@ -24,26 +24,27 @@ export default function NewPost() {
                 fileUrl: response,
                 user: currentUser.uid
             }).then(function () {
-                console.log("Document successfully written!");
+                console.log("Document successfully written!")
                 closeRef.current.click()
             }).catch(function (error) {
-                    console.error("Error writing document: ", error);
-                });
+                console.error("Error writing document: ", error)
+            });
         })
         setLoading(false)
     }
 
     useEffect(() => {
         if (image) {
-            const reader = new FileReader();
+            const reader = new FileReader()
             reader.onloadend = () => {
-                setPreview(reader.result);
-            };
-            reader.readAsDataURL(image);
+                setPreview(reader.result)
+            }
+            reader.readAsDataURL(image)
         } else {
-            setPreview(null);
+            setPreview(null)
         }
     }, [image])
+
     return (
         <>
             <label htmlFor="my-modal-2" className="btn btn-ghost modal-button">New Post</label>
@@ -56,6 +57,7 @@ export default function NewPost() {
                                 <img
                                     src={preview}
                                     style={{ objectFit: "cover" }}
+                                    className="max-h-72 rounded"
                                     alt="preview"
                                 /></div>) : (<>
 
@@ -73,6 +75,7 @@ export default function NewPost() {
                                                 const file = event.target.files[0];
                                                 if (file && file.type.substr(0, 5) === "image") {
                                                     setImage(file)
+
                                                 } else {
                                                     setImage(null)
                                                 }
@@ -97,13 +100,21 @@ export default function NewPost() {
                             <label htmlFor="my-modal-2" ref={closeRef} className="btn " disabled="disabled">Close</label></>)
                             : (<><button htmlFor="my-modal-2" className="btn btn-primary" onClick={e => {
                                 e.preventDefault()
-                                if (image) {
-                                    uploadImage(e)
+                                if (!descriptionRef.current.value) {
+                                    alert("description required")
+                                } else {
+                                    if (image) {
+                                        uploadImage(e)
+                                    } else {
+                                        alert("Image required")
+                                    }
                                 }
+
                             }}>Submit</button>
                                 <label htmlFor="my-modal-2" ref={closeRef} onClick={e => {
-                                     setImage(null) 
-                                     descriptionRef.current.value=null}} className="btn">Close</label></>)}
+                                    setImage(null)
+                                    descriptionRef.current.value = null
+                                }} className="btn">Close</label></>)}
                     </div>
                 </div>
             </div>

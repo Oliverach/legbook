@@ -1,13 +1,14 @@
 import React from "react"
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { AuthProvider } from "../context/AuthContext";
+import { AuthProvider } from "../context/AuthContext"
 import Signup from "./Signup"
-import Home from "./Home";
-import Login from "./Login";
-import ForgotPassword from "./ForgotPassword";
-import PrivateRoute from "./PrivateRoute";
+import Home from "./Home"
+import Login from "./Login"
+import ForgotPassword from "./ForgotPassword"
+import PrivateRoute from "./PrivateRoute"
 import Navbar from "./Navbar"
 import UserProfile from "./UserProfile";
+
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               
             </Switch>
           </Router>
+
         </div>
       </AuthProvider>
     </>

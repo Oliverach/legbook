@@ -17,7 +17,6 @@ export default function NewPost() {
         const fileRef = storageRef.child(image.name)
         await fileRef.put(image)
         await fileRef.getDownloadURL().then(function (response) {
-            console.log(response)
             const id = app.firestore().collection('posts').doc().id
             app.firestore().collection('posts').doc(id).set({
                 description: descriptionRef.current.value,
@@ -28,7 +27,7 @@ export default function NewPost() {
                 closeRef.current.click()
             }).catch(function (error) {
                 console.error("Error writing document: ", error)
-            });
+            })
         })
         setLoading(false)
     }
@@ -50,7 +49,7 @@ export default function NewPost() {
             <label htmlFor="my-modal-2" className="btn btn-ghost modal-button">New Post</label>
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">
-                <div className="modal-box">
+                <div className="modal-box max-h-screen">
                     <div className="flex justify-center items-center">
                         {preview ? (
                             <div className="h-3/4">
@@ -88,7 +87,7 @@ export default function NewPost() {
                         <label className="label">
                             <span className="label-text">Description</span>
                         </label>
-                        <textarea className="textarea h-24 textarea-bordered textarea-primary" ref={descriptionRef} name="description" placeholder="Description"></textarea>
+                        <textarea className="textarea h-24 max-h-80 textarea-bordered textarea-primary"  ref={descriptionRef} name="description" placeholder="Description"></textarea>
                     </div>
                     <div className="modal-action">
                         {loading ? (<><button htmlFor="my-modal-2" className="btn btn-primary loading" disabled="disabled" onClick={e => {

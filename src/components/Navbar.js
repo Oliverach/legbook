@@ -44,22 +44,29 @@ export default function Navbar() {
     const navbarElementWhenLoggedIn = (
         <>
             <NewPost />
-            <div>
-                <div className="flex-none hidden px-2 mx-2 lg:flex">
-                    <div className="flex items-stretch">
-                        <a className="btn btn-ghost rounded-btn" href="/profile">
-                            Profile
-                        </a>
-                    </div>
+
+            <div className="flex-none hidden px-2 mx-2 lg:flex">
+                <div className="flex items-stretch">
+                    <a className="btn btn-ghost rounded-btn" href="/">
+                        Home
+                    </a>
                 </div>
-                <div className="flex-none hidden px-2 mx-2 lg:flex">
-                    <div className="flex items-stretch">
-                        <div className="btn btn-ghost rounded-btn" onClick={handleLogout}>
-                            Logout
-                        </div>
+            </div>
+            <div className="flex-none hidden px-2 mx-2 lg:flex">
+                <div className="flex items-stretch">
+                    <a className="btn btn-ghost rounded-btn" href="/profile">
+                        Profile
+                    </a>
+                </div>
+            </div>
+            <div className="flex-none hidden px-2 mx-2 lg:flex">
+                <div className="flex items-stretch">
+                    <div className="btn btn-ghost rounded-btn" onClick={handleLogout}>
+                        Logout
                     </div>
                 </div>
             </div>
+
         </>
     )
 
@@ -67,8 +74,8 @@ export default function Navbar() {
         <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content">
             <div className="flex-1 px-2 mx-2">
                 <span className="text-lg font-bold">
-                <a href="/"> Legbook</a>
-                   
+                    <a href="/"> Legbook</a>
+
                 </span>
             </div>
             {currentUser ? navbarElementWhenLoggedIn : navbarElementWhenLoggedOut}

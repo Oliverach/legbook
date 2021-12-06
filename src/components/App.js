@@ -9,7 +9,6 @@ import PrivateRoute from "./PrivateRoute"
 import Navbar from "./Navbar"
 import UserProfile from "./UserProfile";
 
-
 function App() {
   return (
     <>
@@ -22,8 +21,7 @@ function App() {
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/password-recovery" component={ForgotPassword} />
-              <Route path="/profile" component={(props) => <UserProfile {...props} test={"hzhzhzhzh"} />} />  
-              
+              <Route path="/profile" component={(props) => <UserProfile {...props} test={"hzhzhzhzh"} />} />
             </Switch>
           </Router>
 

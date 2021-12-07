@@ -1,5 +1,5 @@
 import firebase from "firebase/app"
-import "firebase/auth"
+import "firebase/auth";
 import "firebase/storage"
 import 'firebase/firestore'
 //Create your own Config.js 
@@ -19,5 +19,4 @@ const app = firebase.initializeApp({
 
 export const auth = app.auth()
 export const storage = app.storage()
-export const firestore =  app.firestore()
 export default app

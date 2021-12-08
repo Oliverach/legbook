@@ -7,7 +7,7 @@ import Login from "./Login"
 import ForgotPassword from "./ForgotPassword"
 import PrivateRoute from "./PrivateRoute"
 import Navbar from "./Navbar"
-import UserProfile from "./UserProfile";
+import UserProfile from "./UserProfile"
 
 function App() {
   return (

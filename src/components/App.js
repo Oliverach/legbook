@@ -14,7 +14,7 @@ function App() {
     <>
       <AuthProvider>
         <Navbar />
-        <div className="container mx-auto flex justify-center items-center">
+        <div className="container mx-auto">
           <Router>
             <Switch>
               <PrivateRoute exact path="/" component={Home} />

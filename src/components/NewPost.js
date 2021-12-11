@@ -1,12 +1,14 @@
 import React, { useRef, useEffect, useState } from 'react'
 import app from 'firebase'
 import { useAuth } from "../context/AuthContext"
+import Swal from 'sweetalert2'
 
 export default function NewPost() {
     const fileInputRef = useRef()
     const descriptionRef = useRef()
     const closeRef = useRef()
     const [image, setImage] = useState()
+    const [error, setError] = useState()
     const [preview, setPreview] = useState()
     const [loading, setLoading] = useState(false)
     const { currentUser } = useAuth()
@@ -23,10 +25,18 @@ export default function NewPost() {
                 fileUrl: response,
                 user: currentUser.uid
             }).then(function () {
-                console.log("Document successfully written!")
                 closeRef.current.click()
-            }).catch(function (error) {
-                console.error("Error writing document: ", error)
+                Swal.fire(
+                    "Posted!",
+                    "",
+                    "success"
+                )
+            }).catch(function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                  })
             })
         })
         setLoading(false)

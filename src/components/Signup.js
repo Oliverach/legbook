@@ -41,7 +41,8 @@ export default function Signup() {
     }
     return (
         <>
-            <div className="card bordered w-1/2">
+         <h1 className="text-3xl font-semibold text-center my-5">Legbook</h1>
+            <div className="card mx-auto bordered w-1/2">
                 <div className="card-body">
                     <h2 className="card-title text-center">Sign Up</h2>
                     <form onSubmit={handleSubmit}>
@@ -79,7 +80,7 @@ export default function Signup() {
                         </div>
                     </form>
                     <h2 className="text-center">
-                        Already have an account? <a href="/login">Login</a>
+                        Already have an account? <a href="/login" className="hover:underline">Login</a>
                     </h2>
             
                 </div>

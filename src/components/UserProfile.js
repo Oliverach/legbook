@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import app from 'firebase'
 import { useAuth } from "../context/AuthContext"
 
+
 export default function UserProfile({test}) {
  
     const [posts, setPosts] = useState([])
@@ -23,6 +24,7 @@ export default function UserProfile({test}) {
 
     return (
         <>
+        <h1 className="text-3xl font-semibold text-center my-5">Your Posts</h1>
             <div className="flex flex-col">
                 {posts.map((post) => {
                     return (

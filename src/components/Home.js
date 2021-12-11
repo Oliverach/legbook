@@ -2,10 +2,11 @@ import React, { useEffect, useState, useRef } from 'react'
 import app from 'firebase'
 import { useAuth } from "../context/AuthContext"
 import Swal from 'sweetalert2'
+import { fetchComments } from '../FirebaseService'
 
 
 export default function Dashboard() {
-    const [comments, SetComments] = useState([])
+    const [comments, setComments] = useState([])
     const [posts, setPosts] = useState([])
     const [openedPost, setOpenedPost] = useState()
     const { currentUser } = useAuth()
@@ -13,12 +14,6 @@ export default function Dashboard() {
     const db = app.firestore()
 
     useEffect(() => {
-
-        const getUsername = async (uid) => {
-            const doc = await db.collection("users").doc(uid).get()
-            return doc.data().username
-        }
-
         const fetchPosts = async () => {
             const postsCollection = await db.collection("posts").get()
             setPosts(postsCollection.docs.map(doc => {
@@ -29,6 +24,7 @@ export default function Dashboard() {
     }, [])
 
     const commentPost = (comment, docId, uid) => {
+        const db = app.firestore()
         const id = db.collection('posts').doc().id
         db.collection('comments').doc(id).set({
             comment: comment,
@@ -45,31 +41,35 @@ export default function Dashboard() {
         })
     }
 
-    const fetchComments = async (postId) => {
-        const commentCollection = await db.collection('comments').where('post', '==', postId).get()
-        SetComments(commentCollection.docs.map(doc => {
-            return { comment: doc.data().comment, username: "fix this" }
-        }))
-
+    const openPost= (e, post) =>{
+        e.preventDefault()
+        fetchComments(post.docId).then((data) =>{
+            setComments(data)
+        })
+        setOpenedPost(post)
+        modalRef.current.click()
     }
+  
+
 
     return (
         <>
+    
             <label htmlFor="openedPost" ref={modalRef}></label>
             <input type="checkbox" id="openedPost" className="modal-toggle" />
             <div className="modal">
                 <div className="modal-box">
                     {openedPost && <img src={openedPost.data.fileUrl} className="mx-auto" style={{ objectFit: "cover" }} alt={openedPost.description} />}
-                    <div class="collapse rounded-2xl mx-auto mt-2 collapse-arrow  ">
+                    <div className="collapse rounded-2xl mx-auto mt-2 collapse-arrow  ">
                         <input type="checkbox" />
-                        <h5 class="collapse-title font-bold">
+                        <h5 className="collapse-title font-bold">
                             View comments
                         </h5>
-                        <div class="collapse-content">
+                        <div className="collapse-content">
                             {comments.length ? (
-                                    comments.map((comment) => {
-                                        return <p>fix this:{comment.comment}</p>
-                                    })) : (<h6>No comments yet</h6>)}
+                                comments.map((comment) => {
+                                    return <p key={comment.id}>fix this:{comment.comment}</p>
+                                })) : (<h6>No comments yet</h6>)}
                         </div>
                     </div>
                     <div className="modal-action">
@@ -77,22 +77,15 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-
             <div className="flex flex-col">
                 {posts.map((post) => {
                     return (
-
-                        <div className="card w-1/3 mx-auto my-10 cursor-pointer shadow-2xl" key={post.data.description} >
+                        <div className="card w-1/3 mx-auto my-10 cursor-pointer shadow-2xl" key={post.docId} >
                             <figure>
                                 <label htmlFor="openedPost">
-                                    <img src={post.data.fileUrl} style={{ objectFit: "cover" }} alt={post.data.description} onClick={(e) => {
-                                        e.preventDefault()
-                                        fetchComments(post.docId)
-                                        setOpenedPost(post)
-                                        modalRef.current.click()
-                                    }} />
+                                    <img src={post.data.fileUrl} style={{ objectFit: "cover" }} alt={post.data.description} onClick={(e)=>{openPost(e, post)}}/>
                                 </label>
-                            </figure>
+                            </figure> 
                             <div className="card-body">
 
                                 <p>{post.username + ": " + post.data.description}</p>
@@ -118,7 +111,6 @@ export default function Dashboard() {
                             </div>
 
                         </div>
-
                     )
                 })}
             </div>

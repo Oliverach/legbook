@@ -81,7 +81,7 @@ export default function NewPost() {
                                             ref={fileInputRef}
                                             accept="image/*, video/*"
                                             onChange={(event) => {
-                                                const file = event.target.files[0];
+                                                const file = event.target.files[0]
                                                 if (file && file.type.substr(0, 5) === "image") {
                                                     setImage(file)
 

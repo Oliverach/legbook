@@ -94,7 +94,7 @@ export default function Navbar() {
                     </div>
                     <div className="md:hidden flex items-center">
                         <button className="outline-none mobile-menu-button" onClick={() => {
-                            const menu = document.querySelector(".mobile-menu");
+                            const menu = document.querySelector(".mobile-menu")
                             menu.classList.toggle("hidden")
                         }}>
                             <span className="material-icons">
@@ -128,7 +128,7 @@ export default function Navbar() {
             
             {/* <div class="md:hidden flex items-center">
                 <button class="outline-none mobile-menu-button" onClick={() => {
-                    const menu = document.querySelector(".mobile-menu");
+                    const menu = document.querySelector(".mobile-menu")
                     menu.classList.toggle("hidden")
                 }}>
                     <span class="material-icons">

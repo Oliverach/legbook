@@ -3,24 +3,23 @@ import app from 'firebase'
 import { useAuth } from "../context/AuthContext"
 import OpenedPost from './OpenedPost'
 
-export default function UserProfile({ test }) {
+export default function UserProfile() {
 
     const [posts, setPosts] = useState([])
     const { currentUser } = useAuth()
     const [openedPost, setOpenedPost] = useState()
     const modalRef = useRef()
     const db = app.firestore()
+
     useEffect(() => {
 
         const fetchUsers = async () => {
-         
             const collecion = await db.collection("posts").where('user', '==', currentUser.uid).get()
             setPosts(collecion.docs.map(doc => {
                 return { docId: doc.id, data: doc.data(), username: "fix this" }
             }))
         }
         fetchUsers()
-        console.log(test)
     }, [])
 
 

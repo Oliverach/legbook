@@ -21,7 +21,7 @@ function App() {
               <Route path="/signup" component={Signup} />
               <Route path="/login" component={Login} />
               <Route path="/password-recovery" component={ForgotPassword} />
-              <Route path="/profile" component={(props) => <Profile {...props} test={"hzhzhzhzh"} />} />
+              <Route path="/profile" component={Profile} />
             </Switch>
           </Router>
 
@@ -30,4 +30,4 @@ function App() {
     </>
   )
 }
-export default App;
+export default App

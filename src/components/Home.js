@@ -24,6 +24,10 @@ export default function Dashboard() {
 
 
     const commentPost = (comment, docId, uid) => {
+        if(!comment){
+            alert("Comment empty")
+            return
+        }
         const db = app.firestore()
         const id = db.collection('posts').doc().id
         db.collection('comments').doc(id).set({

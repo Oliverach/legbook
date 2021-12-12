@@ -12,7 +12,7 @@ export default function Signup() {
     const { signup } = useAuth()
     const [loading, setLoading] = useState(false)
     const [buttonType, setButtonType] = useState("btn")
-    const history = useHistory();
+    const history = useHistory()
     const swal = withReactContent(Swal)
 
     async function handleSubmit(e) {

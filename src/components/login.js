@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from "react"
 import { useAuth } from "../context/AuthContext"
-import { useHistory } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import { useHistory } from "react-router-dom"
+import Swal from "sweetalert2"
+import withReactContent from "sweetalert2-react-content"
 
 
 export default function Login() {
@@ -21,9 +21,9 @@ export default function Login() {
             history.push("/")
         } catch {
             swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!'
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!"
             })
         }
         setLoading(false)

@@ -1,14 +1,13 @@
-import React, { useRef, useEffect, useState } from 'react'
-import app from 'firebase'
+import React, { useRef, useEffect, useState } from "react"
+import app from "firebase"
 import { useAuth } from "../context/AuthContext"
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2"
 
 export default function NewPost() {
     const fileInputRef = useRef()
     const descriptionRef = useRef()
     const closeRef = useRef()
     const [image, setImage] = useState()
-    const [error, setError] = useState()
     const [preview, setPreview] = useState()
     const [loading, setLoading] = useState(false)
     const { currentUser } = useAuth()
@@ -19,8 +18,8 @@ export default function NewPost() {
         const fileRef = storageRef.child(image.name)
         await fileRef.put(image)
         await fileRef.getDownloadURL().then(function (response) {
-            const id = app.firestore().collection('posts').doc().id
-            app.firestore().collection('posts').doc(id).set({
+            const id = app.firestore().collection("posts").doc().id
+            app.firestore().collection("posts").doc(id).set({
                 description: descriptionRef.current.value,
                 fileUrl: response,
                 user: currentUser.uid
@@ -33,9 +32,9 @@ export default function NewPost() {
                 )
             }).catch(function () {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Something went wrong!",
                   })
             })
         })
@@ -120,7 +119,7 @@ export default function NewPost() {
                                 }
 
                             }}>Submit</button>
-                                <label htmlFor="my-modal-2" ref={closeRef} onClick={e => {
+                                <label htmlFor="my-modal-2" ref={closeRef} onClick={() => {
                                     setImage(null)
                                     descriptionRef.current.value = null
                                 }} className="btn">Close</label></>)}

@@ -1,44 +1,57 @@
-import React, { useEffect, useState, useRef } from 'react'
-import app from 'firebase'
+import React, { useEffect, useState, useRef } from "react"
+import app from "firebase"
 import { useAuth } from "../context/AuthContext"
-import Swal from 'sweetalert2'
-
-import OpenedPost from './OpenedPost'
+import Swal from "sweetalert2"
+import OpenedPost from "./OpenedPost"
+import { getUsername } from "../FirebaseService"
 
 export default function Dashboard() {
     const modalRef = useRef()
     const [posts, setPosts] = useState([])
+    const [test, setTest] = useState([])
     const [openedPost, setOpenedPost] = useState()
     const { currentUser } = useAuth()
     const db = app.firestore()
 
+
     useEffect(() => {
+        const getUsername = async (userId) => {
+            const username = await db.collection("users").doc(userId).get()
+            return username.data().username
+        }
         const fetchPosts = async () => {
-            const postsCollection = await db.collection("posts").get()
-            setPosts(postsCollection.docs.map(doc => {
-                return { docId: doc.id, data: doc.data(), username: "fix this" }
-            }))
+            await db.collection("posts").get().then(response => {
+                response.docs.map(doc => {
+                    getUsername(doc.data().user).then(username => {
+                        setPosts(test => [...test, { docId: doc.id, data: doc.data(), username: username }])
+                    
+                    })
+                })
+            })
         }
         fetchPosts()
     }, [])
 
+    useEffect(() => {
+        console.log(test)
+    }, [test])
 
     const commentPost = (comment, docId, uid) => {
-        if(!comment){
+        if (!comment) {
             alert("Comment empty")
             return
         }
         const db = app.firestore()
-        const id = db.collection('posts').doc().id
-        db.collection('comments').doc(id).set({
+        const id = db.collection("posts").doc().id
+        db.collection("comments").doc(id).set({
             comment: comment,
             post: docId,
             user: uid
         }).then(function () {
             Swal.fire(
-                'Commented!',
-                '',
-                'success'
+                "Commented!",
+                "",
+                "success"
             )
         }).catch(function (error) {
             console.error("Error commenting: ", error)
@@ -53,15 +66,14 @@ export default function Dashboard() {
 
     return (
         <>
-        
-            <OpenedPost openedPost={openedPost} modalRef={modalRef}/>
-            <div className="flex flex-col">
+            <OpenedPost openedPost={openedPost} modalRef={modalRef} />
+            {posts && (<div className="flex flex-col">
                 {posts.map((post) => {
                     return (
                         <div className="card w-1/3 mx-auto my-10 cursor-pointer shadow-2xl" key={post.docId} >
                             <figure>
                                 <label htmlFor="openedPost">
-                                    <img src={post.data.fileUrl} style={{ objectFit: "cover" }} alt={post.data.description} onClick={(e) => { openPost(e, post) }} />
+                                    <img src={post.data.fileUrl} style={{ objectFit: "cover" }} className="hover: cursor-pointer" alt={post.data.description} onClick={(e) => { openPost(e, post) }} />
                                 </label>
                             </figure>
                             <div className="card-body">
@@ -69,7 +81,7 @@ export default function Dashboard() {
                                 <p>{post.username + ": " + post.data.description}</p>
 
                             </div>
-                           
+
                             <div className="form-control">
                                 <div className="relative">
                                     <form onSubmit={(e) => {
@@ -84,14 +96,12 @@ export default function Dashboard() {
                                             </span>
                                         </button>
                                     </form>
-
                                 </div>
                             </div>
-
                         </div>
                     )
                 })}
-            </div>
+            </div>)}
         </>
     )
 }

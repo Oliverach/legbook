@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from "react"
 import { useAuth } from "../context/AuthContext"
-import { useHistory } from 'react-router'
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import { useHistory } from "react-router"
+import Swal from "sweetalert2"
+import withReactContent from "sweetalert2-react-content"
 
 export default function Signup() {
     const emailRef = useRef()
@@ -19,9 +19,9 @@ export default function Signup() {
         e.preventDefault()
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Passwords do not match'
+                icon: "error",
+                title: "Oops...",
+                text: "Passwords do not match"
             })
         }
         try {
@@ -31,9 +31,9 @@ export default function Signup() {
             history.push("/login")
         } catch {
             swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something went wrong!'
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!"
             })
         }
         setButtonType("btn")

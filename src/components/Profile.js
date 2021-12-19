@@ -1,7 +1,7 @@
-import React, { useEffect, useState,useRef} from 'react'
-import app from 'firebase'
+import React, { useEffect, useState,useRef} from "react"
+import app from "firebase"
 import { useAuth } from "../context/AuthContext"
-import OpenedPost from './OpenedPost'
+import OpenedPost from "./OpenedPost"
 
 export default function UserProfile() {
 
@@ -14,7 +14,7 @@ export default function UserProfile() {
     useEffect(() => {
 
         const fetchUsers = async () => {
-            const collecion = await db.collection("posts").where('user', '==', currentUser.uid).get()
+            const collecion = await db.collection("posts").where("user", "==", currentUser.uid).get()
             setPosts(collecion.docs.map(doc => {
                 return { docId: doc.id, data: doc.data(), username: "fix this" }
             }))
@@ -38,7 +38,7 @@ export default function UserProfile() {
                     return (
                         <div className="card w-1/4 mx-auto my-10 bordered shadow-2xl" key={post.docId}>
                             <figure>
-                                <img src={post.data.fileUrl} style={{ objectFit: "cover" }} alt={post.data.description} onClick={(e) => { openPost(e, post) }}/>
+                                <img className="hover: cursor-pointer" src={post.data.fileUrl} style={{ objectFit: "cover" }} alt={post.data.description} onClick={(e) => { openPost(e, post) }}/>
                             </figure>
                             <div className="card-body">
                                 <p>{post.data.description}</p>

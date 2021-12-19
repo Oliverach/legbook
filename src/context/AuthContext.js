@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
 
   async function signup(email, password, username) {
     const user = await auth.createUserWithEmailAndPassword(email, password)
-    app.firestore().collection('users').doc(user.user.uid).set({
+    app.firestore().collection("users").doc(user.user.uid).set({
       username: username
     }).then(function () {
       console.log("User created!")

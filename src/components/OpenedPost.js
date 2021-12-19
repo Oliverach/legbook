@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef} from 'react'
-import { fetchComments } from '../FirebaseService'
+import React, { useEffect, useState, useRef} from "react"
+import { fetchComments } from "../FirebaseService"
 
 export default function OpenedPost({openedPost, modalRef}) {
 

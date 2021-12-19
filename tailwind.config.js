@@ -1,6 +1,6 @@
 module.exports = {
-  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-  darkMode: false, // or 'media' or 'class'
+  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  darkMode: false, // or "media" or "class"
   theme: {
     extend: {},
   },
@@ -8,15 +8,15 @@ module.exports = {
     extend: {},
   },
   plugins: [
-    require('daisyui'),
+    require("daisyui"),
   ],
   daisyui: {
     styled: true,
     themes: true,
     themes: [
      // first one will be the default theme
-      'light',
-      'dark'
+      "light",
+      "dark"
     ],
   }
 }

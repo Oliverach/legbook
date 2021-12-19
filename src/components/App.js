@@ -1,5 +1,5 @@
 import React from "react"
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { AuthProvider } from "../context/AuthContext"
 import Signup from "./Signup"
 import Home from "./Home"
@@ -22,6 +22,7 @@ function App() {
               <Route path="/login" component={Login} />
               <Route path="/password-recovery" component={ForgotPassword} />
               <Route path="/profile" component={Profile} />
+          
             </Switch>
           </Router>
 

@@ -68,11 +68,12 @@ export default function Navbar() {
                     </div>
                 </div>
             </div>
-           
+
         </>
     )
 
- 
+
+
     const navbar = (
         <div className="navbar mb-2 shadow-lg bg-neutral text-neutral-content">
             <div className="flex-1 px-2 mx-2">
@@ -80,7 +81,7 @@ export default function Navbar() {
                     <a href="/"> Legbook</a>
                 </span>
             </div>
-        
+
             {currentUser ? navbarElementWhenLoggedIn : navbarElementWhenLoggedOut}
 
             <input type="checkbox" className="toggle" data-toggle-theme="dark,light" data-act-class="ACTIVECLASS"></input>

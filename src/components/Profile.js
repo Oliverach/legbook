@@ -1,5 +1,5 @@
 import React, { useEffect, useState,useRef} from "react"
-import app from "firebase"
+import {firestore} from "firebase"
 import { useAuth } from "../context/AuthContext"
 import OpenedPost from "./OpenedPost"
 import FirebaseService from "../FirebaseService"
@@ -10,10 +10,10 @@ const {getUsername} = FirebaseService()
     const { currentUser } = useAuth()
     const [openedPost, setOpenedPost] = useState()
     const modalRef = useRef()
-    const db = app.firestore()
+
     useEffect(() => {
         const fetchPosts = async () => {
-            await db.collection("posts").where("user", "==", currentUser.uid).get().then(response => {
+            await firestore().collection("posts").where("user", "==", currentUser.uid).get().then(response => {
                 response.docs.map(doc => {
                     getUsername(doc.data().user).then(username => {
                         setPosts(test => [...test, { docId: doc.id, data: doc.data(), username: username }])

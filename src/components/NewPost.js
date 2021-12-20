@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react"
-import app from "firebase"
+import {storage, firestore} from "firebase"
 import { useAuth } from "../context/AuthContext"
 import Swal from "sweetalert2"
 
@@ -14,12 +14,12 @@ export default function NewPost() {
 
     const uploadImage = async () => {
         setLoading(true)
-        const storageRef = app.storage().ref()
+        const storageRef = storage().ref()
         const fileRef = storageRef.child(image.name)
         await fileRef.put(image)
         await fileRef.getDownloadURL().then(function (response) {
-            const id = app.firestore().collection("posts").doc().id
-            app.firestore().collection("posts").doc(id).set({
+            const id = firestore().collection("posts").doc().id
+            firestore().collection("posts").doc(id).set({
                 description: descriptionRef.current.value,
                 fileUrl: response,
                 user: currentUser.uid

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react"
-import app from "firebase"
+import { firestore } from "firebase"
 import { useAuth } from "../context/AuthContext"
 import Swal from "sweetalert2"
 import OpenedPost from "./OpenedPost"
@@ -10,12 +10,11 @@ export default function Dashboard() {
     const [posts, setPosts] = useState([])
     const [openedPost, setOpenedPost] = useState()
     const { currentUser } = useAuth()
-    const db = app.firestore()
-    const {getUsername} = FirebaseService()
+    const { getUsername } = FirebaseService()
 
     useEffect(() => {
         const fetchPosts = async () => {
-            await db.collection("posts").get().then(response => {
+            await firestore().collection("posts").get().then(response => {
                 response.docs.map(doc => {
                     getUsername(doc.data().user).then(username => {
                         setPosts(posts => [...posts, { docId: doc.id, data: doc.data(), username: username }])
@@ -29,12 +28,15 @@ export default function Dashboard() {
 
     const commentPost = (comment, docId, uid) => {
         if (!comment) {
-            alert("Comment empty")
+            Swal.fire({
+                icon: 'error',
+                title: 'Comment is empty!',
+                text: '',
+            })
             return
         }
-        const db = app.firestore()
-        const id = db.collection("posts").doc().id
-        db.collection("comments").doc(id).set({
+        const id = firestore().collection("posts").doc().id
+        firestore().collection("comments").doc(id).set({
             comment: comment,
             post: docId,
             user: uid
@@ -80,7 +82,7 @@ export default function Dashboard() {
                                         <input type="text" placeholder="Leave a comment" name="comment" className="w-full pr-16 rounded-t-none rounded-b-2xl input input-bordered" />
                                         <button type="submit" className="absolute top-0 right-0 rounded-l-none btn rounded-t-none rounded-b-2xl">
                                             <span className="material-icons-outlined">
-                                                comment 
+                                                comment
                                             </span>
                                         </button>
                                     </form>

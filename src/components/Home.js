@@ -3,38 +3,29 @@ import app from "firebase"
 import { useAuth } from "../context/AuthContext"
 import Swal from "sweetalert2"
 import OpenedPost from "./OpenedPost"
-import { getUsername } from "../FirebaseService"
+import FirebaseService from "../FirebaseService"
 
 export default function Dashboard() {
     const modalRef = useRef()
     const [posts, setPosts] = useState([])
-    const [test, setTest] = useState([])
     const [openedPost, setOpenedPost] = useState()
     const { currentUser } = useAuth()
     const db = app.firestore()
-
+    const {getUsername} = FirebaseService()
 
     useEffect(() => {
-        const getUsername = async (userId) => {
-            const username = await db.collection("users").doc(userId).get()
-            return username.data().username
-        }
         const fetchPosts = async () => {
             await db.collection("posts").get().then(response => {
                 response.docs.map(doc => {
                     getUsername(doc.data().user).then(username => {
-                        setPosts(test => [...test, { docId: doc.id, data: doc.data(), username: username }])
-                    
+                        setPosts(posts => [...posts, { docId: doc.id, data: doc.data(), username: username }])
+
                     })
                 })
             })
         }
         fetchPosts()
     }, [])
-
-    useEffect(() => {
-        console.log(test)
-    }, [test])
 
     const commentPost = (comment, docId, uid) => {
         if (!comment) {
@@ -77,11 +68,8 @@ export default function Dashboard() {
                                 </label>
                             </figure>
                             <div className="card-body">
-
-                                <p>{post.username + ": " + post.data.description}</p>
-
+                                <p className="break-words"><span className="font-semibold">{post.username}: </span>{post.data.description}</p>
                             </div>
-
                             <div className="form-control">
                                 <div className="relative">
                                     <form onSubmit={(e) => {
@@ -92,7 +80,7 @@ export default function Dashboard() {
                                         <input type="text" placeholder="Leave a comment" name="comment" className="w-full pr-16 rounded-t-none rounded-b-2xl input input-bordered" />
                                         <button type="submit" className="absolute top-0 right-0 rounded-l-none btn rounded-t-none rounded-b-2xl">
                                             <span className="material-icons-outlined">
-                                                comment
+                                                comment 
                                             </span>
                                         </button>
                                     </form>

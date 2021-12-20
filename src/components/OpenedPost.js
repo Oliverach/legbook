@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useRef} from "react"
-import { fetchComments } from "../FirebaseService"
+import React, { useEffect, useState, useRef } from "react"
+import FirebaseService from "../FirebaseService"
 
-export default function OpenedPost({openedPost, modalRef}) {
+export default function OpenedPost({ openedPost, modalRef }) {
 
-    const [comments, setComments] = useState([])
+    const { fetchComments, comments } = FirebaseService()
+    const colapseRef = useRef()
+
     useEffect(() => {
         if (openedPost) {
-            fetchComments(openedPost.docId).then((data) => {
-                setComments(data)
-            })
-           
+            fetchComments(openedPost.docId)
         }
     }, [openedPost])
 
@@ -19,20 +18,24 @@ export default function OpenedPost({openedPost, modalRef}) {
         <div className="modal">
             <div className="modal-box">
                 {openedPost && <img src={openedPost.data.fileUrl} className="mx-auto" style={{ objectFit: "cover" }} alt={openedPost.data.description} />}
-                <div className="collapse rounded-2xl mx-auto mt-2 collapse-arrow  ">
-                    <input type="checkbox" />
+                <div className="collapse rounded-2xl mx-auto mt-2 collapse-arrow ">
+                    <input type="checkbox" ref={colapseRef} />
                     <h5 className="collapse-title font-bold">
                         View comments
                     </h5>
                     <div className="collapse-content">
                         {comments.length ? (
                             comments.map((comment) => {
-                                return <p key={comment.id}>fix this:{comment.comment}</p>
+                                return <p className="break-words" key={comment.id}><span className="font-semibold">{comment.username}: </span>{comment.comment}</p>
                             })) : (<h6>No comments yet</h6>)}
                     </div>
                 </div>
                 <div className="modal-action">
-                    <label htmlFor="openedPost" className="btn">Close</label>
+                    <label htmlFor="openedPost" className="btn" onClick={() => {
+                        if (colapseRef.current.checked) {
+                            colapseRef.current.click()
+                        }
+                    }}>Close</label>
                 </div>
             </div>
         </div>

@@ -19,7 +19,6 @@ export function AuthProvider({ children }) {
       console.log("User created!")
     }).catch(function (error) {
       console.error("Error while creating user: ", error)
-    
     })
   }
 

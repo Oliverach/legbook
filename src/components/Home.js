@@ -1,32 +1,17 @@
-import React, { useEffect, useState, useRef } from "react"
-import { firestore } from "firebase"
+import React, { useState, useRef } from "react"
+import { firestore } from "../Firebase.js"
 import { useAuth } from "../context/AuthContext"
 import Swal from "sweetalert2"
 import OpenedPost from "./OpenedPost"
-import FirebaseService from "../FirebaseService"
+import { useContent } from "../context/ContentContext.js"
 
 export default function Dashboard() {
     const modalRef = useRef()
-    const [posts, setPosts] = useState([])
     const [openedPost, setOpenedPost] = useState()
-    const { currentUser } = useAuth()
-    const { getUsername } = FirebaseService()
+    const { currentUser} = useAuth()
+    const { posts } = useContent()
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            await firestore().collection("posts").get().then(response => {
-                response.docs.map(doc => {
-                    getUsername(doc.data().user).then(username => {
-                        setPosts(posts => [...posts, { docId: doc.id, data: doc.data(), username: username }])
-
-                    })
-                })
-            })
-        }
-        fetchPosts()
-    }, [])
-
-    const commentPost = (comment, docId, uid) => {
+    const handleSubmit = (comment, docId, uid) => {
         if (!comment) {
             Swal.fire({
                 icon: 'error',
@@ -35,8 +20,8 @@ export default function Dashboard() {
             })
             return
         }
-        const id = firestore().collection("posts").doc().id
-        firestore().collection("comments").doc(id).set({
+        const id = firestore.collection("posts").doc().id
+        firestore.collection("comments").doc(id).set({
             comment: comment,
             post: docId,
             user: uid
@@ -76,7 +61,7 @@ export default function Dashboard() {
                                 <div className="relative">
                                     <form onSubmit={(e) => {
                                         e.preventDefault()
-                                        commentPost(e.target.comment.value, post.docId, currentUser.uid)
+                                        handleSubmit(e.target.comment.value, post.docId, currentUser.uid)
                                         e.target.comment.value = ""
                                     }}>
                                         <input type="text" placeholder="Leave a comment" name="comment" className="w-full pr-16 rounded-t-none rounded-b-2xl input input-bordered" />

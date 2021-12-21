@@ -1,9 +1,11 @@
 import React, { useRef, useEffect, useState } from "react"
-import {storage, firestore} from "firebase"
+import { storage, firestore } from "../Firebase.js"
 import { useAuth } from "../context/AuthContext"
+import { useContent } from "../context/ContentContext"
 import Swal from "sweetalert2"
 
 export default function NewPost() {
+    const {fetchPosts} = useContent()
     const fileInputRef = useRef()
     const descriptionRef = useRef()
     const closeRef = useRef()
@@ -12,18 +14,19 @@ export default function NewPost() {
     const [loading, setLoading] = useState(false)
     const { currentUser } = useAuth()
 
-    const uploadImage = async () => {
+    const handleSubmit = async () => {
         setLoading(true)
-        const storageRef = storage().ref()
+        const storageRef = storage.ref()
         const fileRef = storageRef.child(image.name)
         await fileRef.put(image)
         await fileRef.getDownloadURL().then(function (response) {
-            const id = firestore().collection("posts").doc().id
-            firestore().collection("posts").doc(id).set({
+            const id = firestore.collection("posts").doc().id
+            firestore.collection("posts").doc(id).set({
                 description: descriptionRef.current.value,
                 fileUrl: response,
                 user: currentUser.uid
             }).then(function () {
+                fetchPosts()
                 closeRef.current.click()
                 Swal.fire(
                     "Posted!",
@@ -102,7 +105,7 @@ export default function NewPost() {
                         {loading ? (<><button htmlFor="my-modal-2" className="btn btn-primary loading" disabled="disabled" onClick={e => {
                             e.preventDefault()
                             if (image) {
-                                uploadImage(e)
+                                handleSubmit(e)
                             }
                         }}>Submit</button>
                             <label htmlFor="my-modal-2" ref={closeRef} className="btn " disabled="disabled">Close</label></>)
@@ -112,7 +115,7 @@ export default function NewPost() {
                                     alert("description required")
                                 } else {
                                     if (image) {
-                                        uploadImage(e)
+                                        handleSubmit(e)
                                     } else {
                                         alert("Image required")
                                     }

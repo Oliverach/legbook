@@ -17,10 +17,18 @@ export default function Signup() {
 
     async function handleSubmit(e) {
         e.preventDefault()
+        if(usernameRef.current.value.trim() === ""){
+            return swal.fire({
+                icon: "error",
+                title: "",
+                text: "Username required"
+            })
+            
+        }
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return swal.fire({
                 icon: "error",
-                title: "Oops...",
+                title: "",
                 text: "Passwords do not match"
             })
         }
@@ -32,7 +40,7 @@ export default function Signup() {
         } catch {
             swal.fire({
                 icon: "error",
-                title: "Oops...",
+                title: "",
                 text: "Something went wrong!"
             })
         }

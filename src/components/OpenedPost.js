@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, forwardRef, useImperativeHandle } from "react"
 import FirebaseService from "../FirebaseService"
 
-export default function OpenedPost({ openedPost, modalRef }) {
+function OpenedPost({ openedPost, modalRef, updateCommentRef }) {
 
     const { fetchComments, comments } = FirebaseService()
     const colapseRef = useRef()
@@ -11,6 +11,16 @@ export default function OpenedPost({ openedPost, modalRef }) {
             fetchComments(openedPost.docId)
         }
     }, [openedPost])
+
+    useImperativeHandle(updateCommentRef, () => ({
+        triggerEvent(docId) {
+            fetchComments(docId)
+        }
+    }), [])
+
+    useEffect(() => {
+        console.log(comments)
+    }, [comments])
 
     return (<>
         <label htmlFor="openedPost" ref={modalRef}></label>
@@ -42,3 +52,4 @@ export default function OpenedPost({ openedPost, modalRef }) {
     </>
     )
 }
+export default forwardRef(OpenedPost)

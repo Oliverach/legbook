@@ -1,4 +1,4 @@
-import { useState} from "react"
+import { useState } from "react"
 import { firestore } from "./Firebase.js"
 
 export default function FirebaseService() {
@@ -11,16 +11,18 @@ export default function FirebaseService() {
     }
 
     const fetchComments = async (postId) => {
+        console.log("fetching")
         setComments([])
-        await  firestore.collection("comments").where("post", "==", postId).get().then(response => {
+        await firestore.collection("comments").where("post", "==", postId).get().then(response => {
             response.docs.map(doc => {
                 getUsername(doc.data().user).then((username) => {
                     setComments(comments => [...comments, { comment: doc.data().comment, username: username, id: doc.id }])
                 })
+
             })
         })
     }
-    
+
     const value = {
         getUsername,
         fetchComments,

@@ -2,7 +2,8 @@ import React, { useState, useRef } from "react"
 import { firestore } from "../Firebase.js"
 import { useAuth } from "../context/AuthContext"
 import Swal from "sweetalert2"
-import OpenedPost from "./OpenedPost"
+import OpenedPost from "./OpenedPost.js"
+import FirebaseService from "../FirebaseService"
 import { useContent } from "../context/ContentContext.js"
 
 export default function Dashboard() {
@@ -10,22 +11,26 @@ export default function Dashboard() {
     const [openedPost, setOpenedPost] = useState()
     const { currentUser} = useAuth()
     const { posts } = useContent()
+    const updateCommentRef = useRef()
 
     const handleSubmit = (comment, docId, uid) => {
         if (!comment) {
-            Swal.fire({
+            return Swal.fire({
                 icon: 'error',
                 title: 'Comment is empty!',
                 text: '',
             })
-            return
+            
         }
-        const id = firestore.collection("posts").doc().id
+        const id = firestore.collection("comments").doc().id
         firestore.collection("comments").doc(id).set({
             comment: comment,
             post: docId,
             user: uid
         }).then(function () {
+            if(openedPost && docId === openedPost.docId){
+                updateCommentRef.current.triggerEvent(openedPost.docId)
+            }
             Swal.fire(
                 "Commented!",
                 "",
@@ -44,7 +49,7 @@ export default function Dashboard() {
 
     return (
         <>
-            <OpenedPost openedPost={openedPost} modalRef={modalRef} />
+            <OpenedPost openedPost={openedPost} modalRef={modalRef} updateCommentRef={updateCommentRef}/>
             {posts && (<div className="flex flex-col">
                 {posts.map((post) => {
                     return (

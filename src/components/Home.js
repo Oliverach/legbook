@@ -3,13 +3,12 @@ import { firestore } from "../Firebase.js"
 import { useAuth } from "../context/AuthContext"
 import Swal from "sweetalert2"
 import OpenedPost from "./OpenedPost.js"
-import FirebaseService from "../FirebaseService"
 import { useContent } from "../context/ContentContext.js"
 
 export default function Dashboard() {
     const modalRef = useRef()
     const [openedPost, setOpenedPost] = useState()
-    const { currentUser} = useAuth()
+    const { currentUser } = useAuth()
     const { posts } = useContent()
     const updateCommentRef = useRef()
 
@@ -20,7 +19,7 @@ export default function Dashboard() {
                 title: 'Comment is empty!',
                 text: '',
             })
-            
+
         }
         const id = firestore.collection("comments").doc().id
         firestore.collection("comments").doc(id).set({
@@ -28,7 +27,7 @@ export default function Dashboard() {
             post: docId,
             user: uid
         }).then(function () {
-            if(openedPost && docId === openedPost.docId){
+            if (openedPost && docId === openedPost.docId) {
                 updateCommentRef.current.triggerEvent(openedPost.docId)
             }
             Swal.fire(
@@ -47,6 +46,7 @@ export default function Dashboard() {
         modalRef.current.click()
     }
 
+
     return (
         <>
             <OpenedPost openedPost={openedPost} modalRef={modalRef} updateCommentRef={updateCommentRef}/>
@@ -55,9 +55,7 @@ export default function Dashboard() {
                     return (
                         <div className="card w-1/3 mx-auto my-10 cursor-pointer shadow-2xl" key={post.docId} >
                             <figure>
-                                <label htmlFor="openedPost">
-                                    <img src={post.data.fileUrl} style={{ objectFit: "cover" }} className="hover: cursor-pointer" alt={post.data.description} onClick={(e) => { openPost(e, post) }} />
-                                </label>
+                                <img src={post.data.fileUrl} style={{ objectFit: "cover" }} className="hover: cursor-pointer" alt={post.data.description} onClick={(e) => { openPost(e, post) }} />
                             </figure>
                             <div className="card-body">
                                 <p className="break-words"><span className="font-semibold">{post.username}: </span>{post.data.description}</p>

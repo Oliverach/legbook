@@ -2,8 +2,6 @@ import React, { useRef, useState } from "react"
 import { useAuth } from "../context/AuthContext"
 import { useHistory } from "react-router-dom"
 import Swal from "sweetalert2"
-import withReactContent from "sweetalert2-react-content"
-
 
 export default function Login() {
     const emailRef = useRef()
@@ -11,7 +9,7 @@ export default function Login() {
     const { login } = useAuth()
     const [loading, setLoading] = useState(false)
     const history = useHistory()
-    const swal = withReactContent(Swal)
+   
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -20,7 +18,7 @@ export default function Login() {
             await login(emailRef.current.value, passwordRef.current.value)
             history.push("/")
         } catch {
-            swal.fire({
+            Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: "Something went wrong!"

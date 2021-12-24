@@ -5,7 +5,7 @@ import { useContent } from "../context/ContentContext"
 import Swal from "sweetalert2"
 
 export default function NewPost() {
-    const {fetchPosts} = useContent()
+    const {fetchPosts, fetchUsersPosts} = useContent()
     const fileInputRef = useRef()
     const descriptionRef = useRef()
     const closeRef = useRef()
@@ -27,6 +27,7 @@ export default function NewPost() {
                 user: currentUser.uid
             }).then(function () {
                 fetchPosts()
+                fetchUsersPosts()
                 closeRef.current.click()
                 Swal.fire(
                     "Posted!",

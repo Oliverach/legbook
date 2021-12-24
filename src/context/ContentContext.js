@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import { firestore } from "../Firebase.js"
+import { useAuth } from "../context/AuthContext"
 
 import FirebaseService from "../FirebaseService.js"
 
@@ -11,9 +12,11 @@ export function useContent() {
 }
 
 export function ContentProvider({ children }) {
-  
+
   const { getUsername } = FirebaseService()
+  const { currentUser } = useAuth()
   const [posts, setPosts] = useState([])
+  const [usersPosts, setUsersPosts] = useState([])
 
   const fetchPosts = async () => {
     setPosts([])
@@ -26,14 +29,27 @@ export function ContentProvider({ children }) {
     })
   }
 
+  const fetchUsersPosts = async () => {
+    setUsersPosts([])
+    await firestore.collection("posts").where("user", "==", currentUser.uid).get().then(response => {
+      response.docs.map(doc => {
+        getUsername(doc.data().user).then(username => {
+          setUsersPosts(usersPosts => [...usersPosts, { docId: doc.id, data: doc.data(), username: username }])
+        })
+      })
+    })
+  }
+
   useEffect(() => {
     fetchPosts()
   }, [])
-  
+
 
   const value = {
     posts,
-     fetchPosts
+    usersPosts,
+    fetchPosts,
+    fetchUsersPosts
   }
 
   return (

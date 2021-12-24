@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, forwardRef, useImperativeHandle } from "react"
+import React, { useEffect, useRef, useImperativeHandle } from "react"
 import FirebaseService from "../FirebaseService"
 
 function OpenedPost({ openedPost, modalRef, updateCommentRef }) {
@@ -18,13 +18,8 @@ function OpenedPost({ openedPost, modalRef, updateCommentRef }) {
         }
     }), [])
 
-    useEffect(() => {
-        console.log(comments)
-    }, [comments])
-
     return (<>
-        <label htmlFor="openedPost" ref={modalRef}></label>
-        <input type="checkbox" id="openedPost" className="modal-toggle" />
+        <input type="checkbox" id="openedPost" className="modal-toggle" ref={modalRef} />
         <div className="modal">
             <div className="modal-box">
                 {openedPost && <img src={openedPost.data.fileUrl} className="mx-auto" style={{ objectFit: "cover" }} alt={openedPost.data.description} />}
@@ -41,10 +36,12 @@ function OpenedPost({ openedPost, modalRef, updateCommentRef }) {
                     </div>
                 </div>
                 <div className="modal-action">
-                    <label htmlFor="openedPost" className="btn" onClick={() => {
+                    <label htmlFor="openedPost" className="btn" onClick={(e) => {
+                        e.preventDefault()
                         if (colapseRef.current.checked) {
                             colapseRef.current.click()
                         }
+                        modalRef.current.click()
                     }}>Close</label>
                 </div>
             </div>
@@ -52,4 +49,4 @@ function OpenedPost({ openedPost, modalRef, updateCommentRef }) {
     </>
     )
 }
-export default forwardRef(OpenedPost)
+export default OpenedPost

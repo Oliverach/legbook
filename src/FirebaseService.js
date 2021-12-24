@@ -11,14 +11,12 @@ export default function FirebaseService() {
     }
 
     const fetchComments = async (postId) => {
-        console.log("fetching")
         setComments([])
         await firestore.collection("comments").where("post", "==", postId).get().then(response => {
             response.docs.map(doc => {
                 getUsername(doc.data().user).then((username) => {
                     setComments(comments => [...comments, { comment: doc.data().comment, username: username, id: doc.id }])
                 })
-
             })
         })
     }

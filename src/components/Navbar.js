@@ -1,8 +1,8 @@
-import React, { useEffect } from "react"
-import { useAuth } from "../context/AuthContext"
-import { useHistory } from "react-router-dom"
-import { themeChange } from "theme-change"
-import NewPost from "./NewPost"
+import React, { useEffect } from 'react'
+import { useAuth } from '../context/AuthContext'
+import { useHistory } from 'react-router-dom'
+import { themeChange } from 'theme-change'
+import NewPost from './NewPost'
 
 export default function Navbar() {
     const { currentUser, logout } = useAuth()
@@ -24,7 +24,6 @@ export default function Navbar() {
 
     const navbarElementWhenLoggedOut = (
         <>
-
             <div className="flex-none hidden px-2 mx-2 lg:flex">
                 <div className="flex items-stretch">
                     <a className="btn btn-ghost rounded-btn" href="/login">
@@ -44,7 +43,7 @@ export default function Navbar() {
     const navbarElementWhenLoggedIn = (
         <>
 
-            <div className="hidden md:flex items-center space-x-1">
+            <div className=" md:flex items-center space-x-1">
                 <NewPost />
                 <div className="flex-none hidden px-2 mx-2 lg:flex">
                     <div className="flex items-stretch">
@@ -53,14 +52,14 @@ export default function Navbar() {
                         </a>
                     </div>
                 </div>
-                <div className="flex-none hidden px-2 mx-2 lg:flex">
+                <div className="flex-none px-2 mx-2 lg:flex">
                     <div className="flex items-stretch">
                         <a className="btn btn-ghost rounded-btn" href="/profile">
                             Profile
                         </a>
                     </div>
                 </div>
-                <div className="flex-none hidden px-2 mx-2 lg:flex">
+                <div className="flex-none px-2 mx-2 lg:flex">
                     <div className="flex items-stretch">
                         <div className="btn btn-ghost rounded-btn" onClick={handleLogout}>
                             Logout
@@ -68,7 +67,7 @@ export default function Navbar() {
                     </div>
                 </div>
             </div>
-
+           
         </>
     )
 
@@ -81,7 +80,8 @@ export default function Navbar() {
                     <a href="/"> Legbook</a>
                 </span>
             </div>
-
+            
+          
             {currentUser ? navbarElementWhenLoggedIn : navbarElementWhenLoggedOut}
 
             <input type="checkbox" className="toggle" data-toggle-theme="dark,light" data-act-class="ACTIVECLASS"></input>

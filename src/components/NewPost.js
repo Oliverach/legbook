@@ -59,7 +59,7 @@ export default function NewPost() {
 
     return (
         <>
-            <label htmlFor="my-modal-2" className="btn btn-ghost modal-button">New Post</label>
+            <label htmlFor="my-modal-2" className="btn btn-ghost rounded-btn ">NEW POST</label>
             <input type="checkbox" id="my-modal-2" className="modal-toggle" />
             <div className="modal">
                 <div className="modal-box max-h-screen">
